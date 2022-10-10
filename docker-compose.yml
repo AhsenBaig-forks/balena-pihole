@@ -3,9 +3,11 @@ version: "2.1"
 volumes:
   pihole_config:
   dnsmasq_config:
+  wireguard_config:
 
 services:
   pihole:
+    depends_on: [unbound]
     build: pihole
     cap_add:
       - SYS_TTY_CONFIG
@@ -30,7 +32,19 @@ services:
     ports:
       - "5053:5053/tcp"
       - "5053:5053/udp"
-
+  
+  wireguard:
+    depends_on: [unbound, pihole]
+    build: wireguard
+    volumes:
+      - "wireguard_config:/etc/wireguard"
+    ports:
+      - "51820:51820/udp"
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    labels:
+      - io.balena.features.kernel-modules=1
+      
   # https://github.com/balenablocks/fbcp
   fbcp:
     image: balenablocks/fbcp:1.0.0

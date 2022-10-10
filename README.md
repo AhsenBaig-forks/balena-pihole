@@ -119,6 +119,9 @@ Set the following environment variable in your balenaCloud Dashboard to tell Pi-
 
 Advanced users can change the Unbound configuration by editing [`unbound.conf`](./unbound/unbound.conf) or [`a-records.conf`](./unbound/a-records.conf) before pushing the app to balenaCloud.
 
+### WireGuard
+
+
 ## Help
 
 If you're having trouble getting the project running,
